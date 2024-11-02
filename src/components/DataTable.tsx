@@ -10,7 +10,7 @@ import { setInputValue, setSelectedMovie, setTableData } from '../features/Table
 import { useDispatch } from 'react-redux';
 import defaultImage from '../assets/default-image.png';
 
-interface Props{
+interface Props {
     callback: any
 }
 
@@ -132,100 +132,104 @@ export const DataTable = (props: Props) => {
     };
 
     return (
-        <TableContainer component={Paper} style={{ width: '80vw' }}>
-            <div className='search-line'>
-                <TextField
-                    label="Search"
-                    variant="standard"
-                    margin="normal"
-                    value={inputValue}
-                    onChange={(e) => dispatch(setInputValue(e.target.value))} // input value changed
-                />
-                <FormControl variant="standard" sx={{ margin: '8px 0 0 8px', minWidth: 120 , textAlign:'left'}}>
-                    <InputLabel id="demo-simple-select-standard-label">Search Type</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        value={searchType}
-                        onChange={handleChange}
-                        style={{ width: '200px' }}
-                    >
-                        <MenuItem value='movie'>Movies</MenuItem>
-                        <MenuItem value='series'>Tv Series</MenuItem>
-                        <MenuItem value='episode'>Tv Series Episodes</MenuItem>
-                    </Select>
-                </FormControl>
-
-
-            </div>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
-                        {
-                            tableColumns.map((column: string, colIndex: number) =>
-                                column === 'Year' ? <TableCell key={colIndex}>
-                                    <TableSortLabel
-                                        active
-                                        direction={order}
-                                        onClick={handleSortRequest} // sort by year
-                                    >
-                                        {column}
-                                    </TableSortLabel>
-                                </TableCell> :
-                                    <TableCell key={colIndex}>{column}</TableCell>
-                            )
-                        }
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {(rowsPerPage > 0
-                        ? tableValues && tableValues.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        : tableValues
-                    ).map((row: any, rowIndex: any) => (
-                        <TableRow key={rowIndex}
-                            className='row'
-                            onClick={() => dispatch(setSelectedMovie(row))}
-                        >
-                            {tableColumns.map((column: any, colIndex: number) => (
-                                column === 'Poster' ?
-                                    <TableCell key={colIndex}> <img
-                                        src={row[column] === 'N/A' ?  defaultImage : row[column]}
-                                        alt='poster'
-                                        style={{ width: 50, height: 50, borderRadius: '50%' }}
-                                    /></TableCell> :
-                                    <TableCell key={colIndex} > {row[column]}</TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                    {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={6} />
-                        </TableRow>
-                    )}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                            colSpan={3}
-                            count={tableValues.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            slotProps={{
-                                select: {
-                                    inputProps: {
-                                        'aria-label': 'rows per page',
-                                    },
-                                    native: true,
-                                },
-                            }}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            ActionsComponent={TablePaginationActions}
+        <>
+            { tableColumns && tableValues && 
+                <TableContainer component={Paper} style={{ width: '80vw' }}>
+                    <div className='search-line'>
+                        <TextField
+                            label="Search"
+                            variant="standard"
+                            margin="normal"
+                            value={inputValue}
+                            onChange={(e) => dispatch(setInputValue(e.target.value))} // input value changed
                         />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer >)
+                        <FormControl variant="standard" sx={{ margin: '8px 0 0 8px', minWidth: 120, textAlign: 'left' }}>
+                            <InputLabel id="demo-simple-select-standard-label">Search Type</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                value={searchType}
+                                onChange={handleChange}
+                                style={{ width: '200px' }}
+                            >
+                                <MenuItem value='movie'>Movies</MenuItem>
+                                <MenuItem value='series'>Tv Series</MenuItem>
+                                <MenuItem value='episode'>Tv Series Episodes</MenuItem>
+                            </Select>
+                        </FormControl>
 
+
+                    </div>
+                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                {
+                                    tableColumns.map((column: string, colIndex: number) =>
+                                        column === 'Year' ? <TableCell key={colIndex}>
+                                            <TableSortLabel
+                                                active
+                                                direction={order}
+                                                onClick={handleSortRequest} // sort by year
+                                            >
+                                                {column}
+                                            </TableSortLabel>
+                                        </TableCell> :
+                                            <TableCell key={colIndex}>{column}</TableCell>
+                                    )
+                                }
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {(rowsPerPage > 0
+                                ? tableValues && tableValues.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : tableValues
+                            ).map((row: any, rowIndex: any) => (
+                                <TableRow key={rowIndex}
+                                    className='row'
+                                    onClick={() => dispatch(setSelectedMovie(row))}
+                                >
+                                    {tableColumns.map((column: any, colIndex: number) => (
+                                        column === 'Poster' ?
+                                            <TableCell key={colIndex}> <img
+                                                src={row[column] === 'N/A' ? defaultImage : row[column]}
+                                                alt='poster'
+                                                style={{ width: 50, height: 50, borderRadius: '50%' }}
+                                            /></TableCell> :
+                                            <TableCell key={colIndex} > {row[column]}</TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 53 * emptyRows }}>
+                                    <TableCell colSpan={6} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={3}
+                                    count={tableValues.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    slotProps={{
+                                        select: {
+                                            inputProps: {
+                                                'aria-label': 'rows per page',
+                                            },
+                                            native: true,
+                                        },
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    ActionsComponent={TablePaginationActions}
+                                />
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableContainer>
+            }
+        </>
+    )
 }
 

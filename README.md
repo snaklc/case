@@ -1,2 +1,2 @@
 'yarn' to download libraries
-'yarn dev' to build
+'yarn dev' to start

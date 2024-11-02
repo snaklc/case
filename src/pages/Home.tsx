@@ -5,7 +5,7 @@ import { setMovieDetail, setTableData } from '../features/TableSlice';
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks';
 import { MovieDetail } from './MovieDetail';
-import { Movie } from '../models/Movie';
+import { Movie, MovieDetails } from '../models/Movie';
 
 
 
@@ -13,6 +13,7 @@ export const Home = () => {
     const dispatch = useDispatch();
     const inputValue: string = useAppSelector(state => state.tableSlice.inputValue)
     const selectedMovie: Movie = useAppSelector(state => state.tableSlice.selectedMovie)
+    const movieDetail: MovieDetails = useAppSelector(state => state.tableSlice.movieDetail)
     const [searchType, setSearchType] = useState<string>('movie')
 
     useEffect(() => {
@@ -40,7 +41,8 @@ export const Home = () => {
 
     return (
         <>
-            {selectedMovie ? <MovieDetail /> : <DataTable callback={(e: string) => setSearchType(e)} />}
+            {selectedMovie && movieDetail ?
+                <MovieDetail /> : <DataTable callback={(e: string) => setSearchType(e)} />}
         </>
     )
 }
