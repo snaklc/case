@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { setMovieDetail, setTableData } from '../features/TableSlice';
 import axios from 'axios';
 import { useAppSelector } from '../app/hooks';
-import { MovieDetail } from './MovieDetail';
+import { MovieDetail } from '../components/MovieDetail';
 import { Movie, MovieDetails } from '../models/Movie';
 
 
